@@ -1,94 +1,63 @@
 import React, { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native'; 
-import { Text, View, TextInput, Button, StyleSheet, Alert, Image, TouchableOpacity } from 'react-native';
-import Consulta from './src/assets/Compontente/Consulta';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 
-export default function Cadastro() {
+function UserScreen() {
 
-  function handleConsulta() {
-    console.log("Consultar lista de Fornecedores")
-  }
+  const [users, setUsers] = useState([
+    { id: 1, name: 'Ponto a ponto de Coração', photo: require('./assets/pontoaponto.png') },
+    { id: 2, name: 'Maria Flor Laços', photo: require('./assets/lacos.png') },
+    { id: 3, name: 'José Agua Potável', photo: require('./assets/agua.png') },
+    { id: 4, name: 'Júlia Graphic Design', photo: require('./assets/gd.png') },
+    { id: 5, name: 'Ana das Frutas', photo: require('./assets/frutas.png') },
+    { id: 6, name: 'Enzo Radiadores', photo: require('./assets/radiador.png') },
+    { id: 7, name: 'Fabio Auditor', photo: require('./assets/auditor.png') },
+    { id: 8, name: 'Stilo com a Lilia', photo: require('./assets/roupas.png') },
+    { id: 9, name: 'Bruce Music', photo: require('./assets/music.png') },
+    { id: 10, name: 'Aline in the Book', photo: require('./assets/book.jpg') },
+    { id: 11, name: 'Caio Bike', photo: require('./assets/bike.png') },
+    { id: 12, name: 'Beto açai', photo: require('./assets/acai.jpg') },
+    { id: 13, name: 'Caios', photo: require('./assets/caio.jpg') },
+  ]);
 
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [produto, setProduto] = useState('');
-  const [imagem, setImagem] = useState('');
+  const handleUserPress = (userId) => {
 
-  const handleCadastro = () => {
-    
-    if (nome && email && senha) {
-      Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-    } else {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-    }
-    const handleConsulta = () => {
-      navigation.navigate('Consultar', { nome });
-    };
+    console.log(`Usuário ${userId} pressionado`);
   };
 
   return (
-    <View style={styles.container}>
-      <Image style={{width: 150, height: 150}}
-      source={require("./src/assets/cad.png")}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Nome"
-        value={nome}
-        onChangeText={text => setNome(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={text => setEmail(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        secureTextEntry
-        value={senha}
-        onChangeText={text => setSenha(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Produto"
-        value={produto}
-        onChangeText={text => setProduto(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Imagem"
-        value={imagem}
-        onChangeText={Image => setImagem()}
-      />
-
-      <Button title="Cadastrar" onPress={handleCadastro} />
-
-    <TouchableOpacity onPress={handleConsulta}>
-      <Text style={{marginTop:150}}>Consultar</Text>
-    </TouchableOpacity>
-
-  </View>
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      {users.map((user) => (
+        <TouchableOpacity key={user.id} onPress={() => handleUserPress(user.id)}>
+          <View style={styles.userContainer}>
+            <Image source={user.photo} style={styles.userPhoto} />
+            <Text style={styles.userName}>{user.name}</Text>
+          </View>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  scrollViewContainer: {
+    marginTop:100,
+    flexGrow: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
+
   },
-  input: {
-    width: '100%',
-    marginBottom: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
+  userContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 15,
+  },
+  userPhoto: {
+    width: 80,
+    height: 80,
+    marginRight: 10,
+  },
+  userName: {
+    fontSize: 18,
   },
 });
 
+export default UserScreen;
